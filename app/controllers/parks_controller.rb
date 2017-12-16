@@ -14,10 +14,22 @@ class ParksController < ApplicationController
   end
 
   # Get /parks/:id
+  def show
+    json_response(@park)
+  end
 
   # PUT /parks/:id
+  def update
+    @park.update(park_params)
+    head :no_content
+  end
 
   # DELETE /parks/:id
+  def destroy
+    @park.destroy
+    head :no_content
+  end
+  
 
   private
 

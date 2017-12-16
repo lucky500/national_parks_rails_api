@@ -1,13 +1,19 @@
-require 'spec_helper'
-require 'database_cleaner'
-require 'factory_bot_rails'
-require 'support/factory_bot'
+# require 'factory_bot_rails'
+# require 'support/factory_bot'
+
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'spec_helper'
+require 'database_cleaner'
+
+  # added this line so my json helper method would work
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 ActiveRecord::Migration.maintain_test_schema!
+
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -17,6 +23,9 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
+
+  # did not need this line to make FactoryBot work
+  config.include FactoryBot::Syntax::Methods
 
   # start by truncating all the tables but then use the faster transaction strategy the rest of the time.
   config.before(:suite) do
@@ -31,6 +40,10 @@ RSpec.configure do |config|
     end
   end
   # [...]
+
+  # added this line so my json helper method would work
+  config.include RequestSpecHelper, type: :request
+
 end
 
 # RSpec.configure do |config|

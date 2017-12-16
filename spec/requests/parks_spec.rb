@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Parks API', type: :request do
   # Initialize test data
   let!(:parks) { create_list(:park, 10) }
-  let(:id) { parks.first.id }
+  let(:park_id) { parks.first.id }
 
   # Test suite for GET / Parks
   describe 'GET /parks' do
@@ -13,7 +13,7 @@ describe 'Parks API', type: :request do
     it 'returns parks' do
       # Note 'json is a custom helper to parse JSON responses'
       expect(json).not_to be_empty
-      exppect(json.size).to eq(10)
+      expect(json.size).to eq(10)
     end
 
     it 'returns status code 200' do
@@ -23,12 +23,12 @@ describe 'Parks API', type: :request do
 
   # Test suite for GET /parks/:id
   describe 'GET /parks/:id' do
-    before { get '/parks/#{id}' }
+    before { get "/parks/#{park_id}" }
 
     context 'when the record exists' do
       it 'returns the park' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(id)
+        expect(json['id']).to eq(park_id)
       end
 
       it 'returns status code 200' do
@@ -37,7 +37,7 @@ describe 'Parks API', type: :request do
     end
 
     context 'when the record does not exists' do
-      let(:id) { 100 }
+      let(:park_id) { 100 }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
@@ -85,7 +85,7 @@ describe 'Parks API', type: :request do
     let(:valid_attributes) { { name: 'Elm Park'} }
 
     context 'when the record exists' do
-      before { put "/parks/#{id}", params: valid_attributes }
+      before { put "/parks/#{park_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -99,7 +99,7 @@ describe 'Parks API', type: :request do
 
   # Test suite for DELETE /parks/:id
   describe 'DELETE /parks/:id' do
-    before { delete "/parks/#{id}" }
+    before { delete "/parks/#{park_id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
