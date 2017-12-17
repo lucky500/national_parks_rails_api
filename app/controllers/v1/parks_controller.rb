@@ -4,7 +4,8 @@ module V1
 
     # GET /parks
     def index
-      @parks = Park.all
+      # get paginated parks
+      @parks = Park.paginate(:page => params[:page], :per_page => 30)
       json_response(@parks)
     end
 
