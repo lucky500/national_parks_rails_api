@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # end
   namespace 'v1' do
     get '/parks/random' => 'parks#random'
+    get '/parks/search' => 'parks#search'
     resources :parks
   end
 end

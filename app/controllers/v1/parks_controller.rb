@@ -6,6 +6,8 @@ module V1
     def index
       # get paginated parks
       @parks = Park.paginate(:page => params[:page], :per_page => 30)
+      @parks = Park.by_name(params[:name]) if params[:name].present?
+      @parks = Park.by_address(params[:address]) if params[:address].present?
       json_response(@parks)
     end
 
@@ -18,12 +20,6 @@ module V1
     # GET /parks/:id
     def show
       json_response(@park)
-    end
-
-    # search
-    def search
-      @parks = Park.where("name LIKE ?", params[:query])
-      json_response(@parks)
     end
 
     def random
