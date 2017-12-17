@@ -15,8 +15,19 @@ module V1
       json_response(@park, :created)
     end
 
-    # Get /parks/:id
+    # GET /parks/:id
     def show
+      json_response(@park)
+    end
+
+    # search
+    def search
+      @parks = Park.where("name LIKE ?", params[:query])
+      json_response(@parks)
+    end
+
+    def random
+      @park = Park.random
       json_response(@park)
     end
 

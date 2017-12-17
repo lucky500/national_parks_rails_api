@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   #   resources :parks
   # end
   namespace 'v1' do
+    get '/parks/random' => 'parks#random'
     resources :parks
   end
 end
